@@ -1,14 +1,10 @@
 import './App.css';
 import { Route, Routes } from "react-router-dom";
-import { useState } from 'react';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Createaccount from './pages/Createaccount';
 import Hallform from './pages/Hallform';
-import Collegeform from './pages/Collegeform';
-import Complaintarea from './pages/Complaintarea';
 import Admindashboard from './pages/Admindashboard';
-import Othersform from './pages/Othersform';
 
 
 function App() {
