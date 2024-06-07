@@ -3,10 +3,10 @@ import Menu from './Menu.tsx';
 import { useState, useEffect } from 'react';
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase,  update, onValue, get, push } from "firebase/database";
+import { ref, getDatabase,  update, onValue } from "firebase/database";
 
 export default function Admindashboard(){
-    const app = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
     const db = getDatabase();
 
     const urlstring = window.location.search;
@@ -14,7 +14,6 @@ export default function Admindashboard(){
     const id = params.get('id');
 
     const [name, setName] = useState('');
-    const [filter, setFilter] = useState('');
     const [complaintsarray, setComplaintsarray] = useState<any[]>([]);
     const [complaintsids, setComplaintsids] = useState<string[]>([]);
 
@@ -22,12 +21,6 @@ export default function Admindashboard(){
     const [solved, setSolved] = useState(0);
     const [pending, setPending] = useState(0);
     const [revoked, setRevoked] = useState(0);
-
-    const [hallnum, setHallnum] = useState(0);
-    const [collegenum, setCollegenum] = useState(0);
-    const [librarynum, setLibrarynum] = useState(0);
-    const [chapelnum, setChapelnum] = useState(0);
-    const [othersnum, setOthersnum] = useState(0);
 
     const [coordinates, setCoordinates] = useState({top:'', left:''});
     const [activecomplaintuserid, setActivecomplaintuserid] = useState('');
@@ -52,23 +45,16 @@ export default function Admindashboard(){
 
                 //Now arrange them according to total, solved, pending, revoked
                 let solvednum=0; let pendingnum=0; let revokednum=0;
-                let hall=0; let college=0; let library=0; let chapel=0; let others=0;
                 
                 vals.map((val: any)=>{
                     if(val.status==="solved"){ solvednum+=1; }
                     if(val.status==="pending"){ pendingnum+=1; }
                     if(val.status==="revoked"){ revokednum+=1; }
-                    if(val.building==="Hall of Residence"){ hall+=1; }
-                    if(val.building==="College Building"){ college+=1; }
-                    if(val.building==="Library"){ library+=1; }
-                    if(val.building==="Chapel"){ chapel+=1; }
-                    if(!["Hall of Residence", "College Building", "Library", "Chapel"].includes(val.building)){ others+=1; }
                 });
 
                 setComplaintsarray(vals);
                 setComplaintsids(ids);
                 setTotal(vals.length); setSolved(solvednum); setPending(pendingnum); setRevoked(revokednum);
-                setHallnum(hall); setCollegenum(college); setLibrarynum(library); setChapelnum(chapel); setOthersnum(others);
             }else{
                 setComplaintsarray([]);
                 setComplaintsids([]);
@@ -194,38 +180,6 @@ export default function Admindashboard(){
                             </div>
                         </div>
                         <img className="w-12" src="icons/solved-complaints.svg" alt="" />                        
-                    </div>
-                </div>
-
-                <div className='mt-6 flex flex-row items-center justify-start'>
-                    <div className='flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Hall of Residence</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{hallnum}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>College Building</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{collegenum}</div>
-                    </div>
-                    
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Library</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{librarynum}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Chapel</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{chapelnum}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Other</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{othersnum}</div>
                     </div>
                 </div>
 

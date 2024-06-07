@@ -1,6 +1,3 @@
-//import './../style/Formlist.css';
-import { useState } from 'react';
-
 type FormlistProps = {
     active: number,
     backtodashboard: ()=>void

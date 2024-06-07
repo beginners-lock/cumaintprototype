@@ -5,11 +5,11 @@ import { useState } from "react";
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
 import LoadingSpinner from "../components/Spinner.tsx";
-import { ref, getDatabase,  update, onValue, get, push } from "firebase/database";
+import { ref, getDatabase, get } from "firebase/database";
 import { ADMIN_LOGIN_SUCCESS, LOGIN_INSTRUCTIONS, LOGIN_SUCCESS, USER_NOT_EXISTS, WRONG_CREDS } from '../constants/messages.tsx';
 
 export default function Login(){
-    const app = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
     const db = getDatabase();
 
     const [emailerr, setEmailerr] = useState(false);

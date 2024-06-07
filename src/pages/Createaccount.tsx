@@ -3,14 +3,14 @@ import Header from "../components/Header.tsx";
 import { useState } from "react";
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase,  update, onValue, get, push } from "firebase/database";
+import { ref, getDatabase, get, push } from "firebase/database";
 import AuthModal from "../components/Authmodal.tsx";
 import { CREATE_ACC_INSTRUCTIONS, EMAIL_ALREADY_REGISTERD, ACCOUNT_CREATED } from "../constants/messages.tsx";
 import LoadingSpinner from "../components/Spinner.tsx";
 
 
 export default function Createaccount() {
-    const app = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
     const db = getDatabase();
 
     const [fnameerr, setFnameerr] = useState(false);

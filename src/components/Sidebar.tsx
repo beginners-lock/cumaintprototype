@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type SidebarProps = {
     userid: string | null
     firstname: string
@@ -10,7 +8,7 @@ type SidebarProps = {
 }
 
 export default function Sidebar({ userid, firstname, lastname, admin, email, logout }: SidebarProps) {
-    const [active, setActive] = useState('dashboard');
+    const active = 'dashboard';
 
     const openhallform = () => {
         const urlstring = window.location.search;
@@ -19,7 +17,7 @@ export default function Sidebar({ userid, firstname, lastname, admin, email, log
         console.log(id);
         let data = JSON.stringify({
             userid: id,
-            building: active,
+            building: 'Hall of Residence',
             title: '',
             body: '',
             day: '',
@@ -47,12 +45,12 @@ export default function Sidebar({ userid, firstname, lastname, admin, email, log
                         Dashboard
                     </li>
 
-                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin?'none':'flex', background:active==='complaint'?'#FAEEFC':'transparent'}} onClick={()=>{ openhallform(); }}> 
+                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin?'none':'flex'}} onClick={()=>{ openhallform(); }}> 
                         <img src="icons/chat.svg" alt="" className="pr-2"/>
                         File a complaint
                     </li>
 
-                    <li className="text-red-700 font-semibold w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{background:active==='logout'?'#FAEEFC':'transparent'}} onClick={()=>{ logout(); }}> 
+                    <li className="text-red-700 font-semibold w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" onClick={()=>{ logout(); }}> 
                         Logout
                     </li>
                 </ul>

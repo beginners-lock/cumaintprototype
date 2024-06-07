@@ -8,7 +8,7 @@ import { ref, getDatabase, push } from "firebase/database";
 import LoadingSpinner from "../components/Spinner.tsx";
 
 export default function Hallform() {
-    const app = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
     const db = getDatabase();
 
     const urlstring = window.location.search;

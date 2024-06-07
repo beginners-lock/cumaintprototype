@@ -2,18 +2,17 @@ import Sidebar from '../components/Sidebar';
 import { useState, useEffect } from 'react';
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase, update, onValue, get, push, remove } from "firebase/database";
+import { ref, getDatabase, update, onValue, remove } from "firebase/database";
 import Menu from './Menu.tsx';
 
 export default function Dashboard(){
-    const app = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
     const db = getDatabase();
 
     const urlstring = window.location.search;
     const params = new URLSearchParams(urlstring);
     const id = params.get('id');
 
-    const [filter, setFilter] = useState('');
     const [user, setUser] = useState<any>(null);
     const [complaintsarray, setComplaintsarray] = useState<any[]>([]);
     const [complaintsids, setComplaintsids] = useState<string[]>([]);
@@ -22,12 +21,6 @@ export default function Dashboard(){
     const [solved, setSolved] = useState(0);
     const [pending, setPending] = useState(0);
     const [revoked, setRevoked] = useState(0);
-
-    const [hallnum, setHallnum] = useState(0);
-    const [collegenum, setCollegenum] = useState(0);
-    const [librarynum, setLibrarynum] = useState(0);
-    const [chapelnum, setChapelnum] = useState(0);
-    const [othersnum, setOthersnum] = useState(0);
 
     const [coordinates, setCoordinates] = useState({top:'', left:''});
     const [activecomplaintuserid, setActivecomplaintuserid] = useState('');
@@ -64,23 +57,16 @@ export default function Dashboard(){
 
                 //Now arrange them according to total, solved, pending, revoked
                 let solvednum=0; let pendingnum=0; let revokednum=0;
-                let hall=0; let college=0; let library=0; let chapel=0; let others=0;
                 
                 filteredvals.map((val: any)=>{
                     if(val.status==="solved"){ solvednum+=1; }
                     if(val.status==="pending"){ pendingnum+=1; }
                     if(val.status==="revoked"){ revokednum+=1; }
-                    if(val.building==="Hall of Residence"){ hall+=1; }
-                    if(val.building==="College Building"){ college+=1; }
-                    if(val.building==="Library"){ library+=1; }
-                    if(val.building==="Chapel"){ chapel+=1; }
-                    if(!["Hall of Residence", "College Building", "Library", "Chapel"].includes(val.building)){ others+=1; }
                 });
 
                 setComplaintsarray(filteredvals);
                 setComplaintsids(filteredids);
                 setTotal(filteredvals.length); setSolved(solvednum); setPending(pendingnum); setRevoked(revokednum);
-                setHallnum(hall); setCollegenum(college); setLibrarynum(library); setChapelnum(chapel); setOthersnum(others); 
             }else{
                 setComplaintsarray([]);
                 setComplaintsids([]);
