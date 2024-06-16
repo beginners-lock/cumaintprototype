@@ -1,10 +1,10 @@
 import './App.css';
-import { Route, Routes } from "react-router-dom";
+/*import { Route, Routes } from "react-router-dom";
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Createaccount from './pages/Createaccount';
 import Hallform from './pages/Hallform';
-import Admindashboard from './pages/Admindashboard';
+import Admindashboard from './pages/Admindashboard';*/
 
 
 function App() {
