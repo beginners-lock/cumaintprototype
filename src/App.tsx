@@ -10,7 +10,15 @@ import Admindashboard from './pages/Admindashboard';
 function App() {
 	return (
 		<div id="appdiv" className='w-full h-full'>
-			<div id="maincontainer" className='w-full h-full'>
+			
+		</div>	
+	);
+}
+
+export default App
+
+/**
+ * <div id="maincontainer" className='w-full h-full'>
 				<Routes>
 					<Route path="/" element={ <Login/> }></Route>
 					<Route path="/login" element={ <Login/> }></Route>
@@ -20,8 +28,4 @@ function App() {
 					<Route path="/hallform" element={ <Hallform/>  }></Route>
 				</Routes>
 			</div>
-		</div>	
-	);
-}
-
-export default App
+ */
