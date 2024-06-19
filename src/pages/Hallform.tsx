@@ -25,9 +25,9 @@ export default function Hallform() {
     const issuesref = ref(db, 'cumaint/Issues');
 
     useEffect(()=>{
-        let form = sessionStorage.getItem('cumaintform');
+        const form = sessionStorage.getItem('cumaintform');
         if(form!==null && form!=='null' && form!==undefined && form!=='undefined'){
-            let jsonform = JSON.parse(form);
+            const jsonform = JSON.parse(form);
             console.log(jsonform);
             setForm(jsonform);
         }else{
@@ -51,10 +51,10 @@ export default function Hallform() {
 
     const proceed = () => {
         clearErrors();
-        let hall = document.getElementById('hallselect') as HTMLSelectElement;
-        let room = document.getElementById('roominput') as HTMLInputElement;
-        let title = document.getElementById('complainttitle') as HTMLSelectElement;
-        let body = document.getElementById('complaintbody') as HTMLTextAreaElement;
+        const hall = document.getElementById('hallselect') as HTMLSelectElement;
+        const room = document.getElementById('roominput') as HTMLInputElement;
+        const title = document.getElementById('complainttitle') as HTMLSelectElement;
+        const body = document.getElementById('complaintbody') as HTMLTextAreaElement;
         let error = false;
 
         if(!hall.value){ error = true; setHallerr(true); }
@@ -66,13 +66,13 @@ export default function Hallform() {
         if(!body.value){ error = true; setBodyerr(true); }
         
         if(!error){
-            let updatedform = {...form};
+            const updatedform = {...form};
             updatedform.body = body.value;
             updatedform.title = title.value;
             updatedform.specifics1 = hall.value;
             updatedform.specifics2 = room.value;
 
-            let res = datefunc();
+            const res = datefunc();
             updatedform.day = res.day;
             updatedform.time = res.time;
 
@@ -86,10 +86,10 @@ export default function Hallform() {
     }
 
     const datefunc = () => {
-        let full = new Date().toString();
-        let arr = full.split(' ');
-        let day = arr.slice(1, 4).join(' ');
-        let time = arr[4];
+        const full = new Date().toString();
+        const arr = full.split(' ');
+        const day = arr.slice(1, 4).join(' ');
+        const time = arr[4];
         return {day: day, time: time};
     }
 
