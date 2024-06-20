@@ -16,7 +16,7 @@ export default function Admindashboard(){
     const [name, setName] = useState('');
     const [complaintsarray, setComplaintsarray] = useState<any[]>([]);
     const [complaintsids, setComplaintsids] = useState<string[]>([]);
-    const filter = '';
+    //const filter = '';
 
     const [total, setTotal] = useState(0);
     const [solved, setSolved] = useState(0);
