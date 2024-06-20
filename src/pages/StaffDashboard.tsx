@@ -1,11 +1,11 @@
 import Sidebar from '../components/Sidebar';
-import Menu from './Menu.tsx';
 import { useState, useEffect } from 'react';
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase,  update, onValue } from "firebase/database";
+import { ref, getDatabase, update, onValue, remove } from "firebase/database";
+import Menu from './Menu.tsx';
 
-export default function Admindashboard(){
+export default function StaffDashboard(){
     initializeApp(firebaseConfig);
     const db = getDatabase();
 
@@ -13,10 +13,9 @@ export default function Admindashboard(){
     const params = new URLSearchParams(urlstring);
     const id = params.get('id');
 
-    const [name, setName] = useState('');
+    const [user, setUser] = useState<any>(null);
     const [complaintsarray, setComplaintsarray] = useState<any[]>([]);
     const [complaintsids, setComplaintsids] = useState<string[]>([]);
-    const [filter, setFilter] = useState('');
 
     const [total, setTotal] = useState(0);
     const [solved, setSolved] = useState(0);
@@ -30,19 +29,23 @@ export default function Admindashboard(){
     const issuesref = ref(db, 'cumaint/Issues');
 
     useEffect(()=>{
-        if(id?.includes('admin') && id?.slice(5)===import.meta.env.VITE_ADMIN_ID){
-            setName('Admin');
-        }else{
+        let usersession = sessionStorage.getItem('cumainsession');
+
+        if(usersession==='undefined' || usersession===undefined || usersession==='null' || usersession===null){
             sessionStorage.clear();
-            window.location.href='/adminlogin';
+            window.location.href = '/stafflogin';
+        }else{
+            usersession = JSON.parse(usersession);
+            setUser(usersession);
         }
 
         const unsub = onValue(issuesref, (snapshot) => {
             let data = snapshot.val();
             
             if(data){
-                let vals = Object.values(data).reverse();
-                let ids = Object.keys(data).reverse();
+                //Filter only those that belong to user
+                let vals = Object.values(data);
+                let ids  = Object.keys(data);
 
                 //Now arrange them according to total, solved, pending, revoked
                 let solvednum=0; let pendingnum=0; let revokednum=0;
@@ -67,12 +70,21 @@ export default function Admindashboard(){
 
     const logout = () => {
         sessionStorage.clear();
-        window.location.href = '/adminlogin';
+        window.location.href = '/stafflogin';
     }
 
     const dropmenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, userid: string, rowid: string) => {
         setActivecomplaintuserid(userid); setActivecomplaintrowid(rowid);
         setCoordinates({ top: (e.clientY).toString()+'px', left: (e.clientX-100).toString()+'px' });
+    }
+
+    const deleterow = () => {
+        if(activecomplaintrowid!==''){
+            const complaintref = ref(db, 'cumaint/Issues/'+activecomplaintrowid);
+            remove(complaintref).then(()=>{
+                setActivecomplaintuserid('');  setActivecomplaintrowid('');
+            });
+        }
     }
 
     const solvedcomplaint = () => {
@@ -83,38 +95,29 @@ export default function Admindashboard(){
             });
         }
     }
-    
-    const revokecomplaint = () => {
-        if(activecomplaintrowid!==''){
-            const complaintref = ref(db, 'cumaint/Issues/'+activecomplaintrowid);
-            update(complaintref, {status: 'revoked'}).then(()=>{
-                setActivecomplaintuserid(''); setActivecomplaintrowid('');
-            });
-        }
-    }
 
     return(
     <div id="dashboardpage" className='pl-[300px] pr-6 pt-6 w-full h-full bg-white'>
         <Sidebar
             userid={id}
-            firstname={'CU Maint'}
-            lastname={'Admin'}
-            admin={true}
-            email={import.meta.env.VITE_ADMIN_EMAIL}
+            firstname={user?.firstname}
+            lastname={user?.lastname}
+            admin={false}
+            email={user?.email}
             logout={()=>{logout();}}
         />
         <Menu
             show={activecomplaintuserid!==''}
             top={coordinates.top}
             left={coordinates.left}
-            deletecomplaint={()=>{ }}
+            deletecomplaint={()=>{ deleterow(); }}
             solvedcomplaint={()=>{ solvedcomplaint(); }}
-            revokecomplaint={()=>{ revokecomplaint(); }}
+            revokecomplaint={()=>{  }}
             closemenu={()=>{ setActivecomplaintuserid(''); setActivecomplaintrowid(''); }}
-            admin={true}
+            admin={false}
             owner={id===activecomplaintuserid}
         />
-        <div className='w-full'>
+        <div className='w-full h-full'>
             <div className='w-full flex flex-row items-center justify-between'>
                 <div className='w-[600px] flex flex-row items-center justify-start px-2.5 py-1.5 rounded-lg bg-[#1018280D]'>
                     <img className="search-icon"  src="icons/search-glass.svg" alt="" />
@@ -127,7 +130,7 @@ export default function Admindashboard(){
             <div className='mt-4'>
                 <div className='flex flex-row items-start justify-between'>
                     <div>
-                        <div className='text-xl font-bold'>{'Welcome '+name}</div>
+                        <div className='text-xl font-bold'>{'Welcome '+ (user? user.firstname : '')}</div>
                         <p className='text-[#475367] text-md'>It’s a sunny day today, we hope you’re taking good care School’s Facilities 😊</p>
                     </div>
                     <div className='flex flex-row justify-between w-[210px] h-[75px] rounded-md p-4 shadow-lg cursor-pointer' style={{border:'1px lightgrey solid'}}>
@@ -184,38 +187,6 @@ export default function Admindashboard(){
                     </div>
                 </div>
 
-                <div className='mt-6 flex flex-row items-center justify-start'>
-                    <div className='flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Electricity</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*hallnum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Furniture</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*collegenum*/}</div>
-                    </div>
-                    
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Water</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*librarynum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Toilet</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*chapelnum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Others</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*othersnum*/}</div>
-                    </div>
-                </div>
-
                 <div className='w-full mt-6 rounded-lg mb-10' style={{border:'1px #E4E7EC solid'}}>
                     <div className='flex flex-row items-center justify-between items-center bg-[#F9FAFB]' style={{borderBottom:'1px #E4E7EC solid'}}>
                         <p className='text-sm w-[16%] box-border px-4 py-2'>Room number</p>
@@ -233,7 +204,7 @@ export default function Admindashboard(){
                                             <h4 className="font-semibold text-[#101928]">{item.specifics1}</h4>
                                             <p className="text-[#475367]">{item.specifics2}</p>
                                         </div>
-                                        <div className='text-sm w-[56%] box-border py-2'>
+                                        <div className='text-sm w-[56%] box-border py-2 pr-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.title}</h4>
                                             <p className="text-[#475367]">{item.body.length>300 ? item.body.slice(0, 297)+'...' : item.body}</p>
                                         </div>
@@ -245,13 +216,12 @@ export default function Admindashboard(){
                                             {item.status.toUpperCase()}
                                         </div>
                                         <div className='w-[6%] box-border px-4 py-2 flex flex-row justify-center items-center' onClick={(e)=>{ dropmenu(e, item.userid, complaintsids[index]); }}>
-                                            <img src="icons/more.svg" className='w-400' alt="more"/>
+                                            <img src="icons/more.svg" className='w-400 cursor-pointer' alt="more"/>
                                         </div>
                                     </div>
                                 ))
-                            :   ''
+                            :   ''    
                         }
-                            
                     </div>
                 </div>
             </div>

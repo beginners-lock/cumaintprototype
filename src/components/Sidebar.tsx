@@ -31,6 +31,14 @@ export default function Sidebar({ userid, firstname, lastname, admin, email, log
         window.location.href="/hallform?id="+userid
     }
 
+    const openfeedbackpage = () => {
+        window.location.href="/feebackform?id="+userid
+    }
+
+    const openanalysis = () => {
+        window.location.href="/analysis?id=admin"+import.meta.env.VITE_ADMIN_ID;
+    }
+
   return (
     <div className="w-[272px] p-4 fixed h-full left-0 top-0 flex flex-col justify-between" style={{borderRight:'1px solid #F0F2F5'}}>
         <div>
@@ -45,9 +53,19 @@ export default function Sidebar({ userid, firstname, lastname, admin, email, log
                         Dashboard
                     </li>
 
-                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin?'none':'flex'}} onClick={()=>{ openhallform(); }}> 
+                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin?'flex':'none'}} onClick={()=>{ openanalysis(); }}> 
+                        <img src="icons/chat.svg" alt="" className="pr-2"/>
+                        Analysis
+                    </li>
+                    
+                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin || window.location.pathname==="/staffdashboard"?'none':'flex'}} onClick={()=>{ openhallform(); }}> 
                         <img src="icons/chat.svg" alt="" className="pr-2"/>
                         File a complaint
+                    </li>
+
+                    <li className="w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" style={{display:admin || window.location.pathname==="/studentdashboard"?'none':'flex'}} onClick={()=>{ openfeedbackpage(); }}> 
+                        <img src="icons/chat.svg" alt="" className="pr-2"/>
+                        Give feedback
                     </li>
 
                     <li className="text-red-700 font-semibold w-full mb-4 h-12 rounded-md text-md pl-4 flex items-center cursor-pointer" onClick={()=>{ logout(); }}> 

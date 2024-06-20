@@ -21,6 +21,9 @@ export default function Hallform() {
     const [bodyerr, setBodyerr] = useState(false);
     const [form, setForm] = useState<any>(null);
     const [loading, setLoading] = useState(false);
+    const [avdate, setAvdate] = useState('');
+    const [avtime, setAvtime] = useState('');
+    const [dterr, setDTerr] = useState(false);
 
     const issuesref = ref(db, 'cumaint/Issues');
 
@@ -37,12 +40,12 @@ export default function Hallform() {
 
     const gotodashboard = () => {
         sessionStorage.removeItem('cumaintform');
-        window.location.href = 'dashboard?id='+id;
+        window.location.href = 'studentdashboard?id='+id;
     }
 
     const gotocomplaintform = () => {
         sessionStorage.removeItem('cumaintform');
-        window.location.href = 'complaint?id='+id;
+        window.location.href = 'studentdashboard?id='+id;
     }
 
     const clearErrors = () => {
@@ -64,6 +67,8 @@ export default function Hallform() {
         if(!title.value){ error = true; setTitleerr(true); }
 
         if(!body.value){ error = true; setBodyerr(true); }
+
+        if(avdate==='' || avtime===''){ error=true; setDTerr(true); }
         
         if(!error){
             const updatedform = {...form};
@@ -71,17 +76,22 @@ export default function Hallform() {
             updatedform.title = title.value;
             updatedform.specifics1 = hall.value;
             updatedform.specifics2 = room.value;
+            updatedform.avdate = avdate;
+            updatedform.avtime = avtime;
 
             const res = datefunc();
             updatedform.day = res.day;
             updatedform.time = res.time;
 
             setLoading(true);
-            push(issuesref, updatedform).then(()=>{
-                sessionStorage.removeItem('cumaintform');
-                window.location.href = '/dashboard?id='+id;
+            sessionStorage.setItem('cumaintform', JSON.stringify(updatedform))
+            window.location.href = '/complaintphoto?id='+id;
+            /*push(issuesref, updatedform).then((url)=>{
+                console.log(url);
+                window.location.href = '/complaintphoto?id='+id;
                 setLoading(false);
-            });
+            });*/
+           // window.location.href = '/complaintphoto?id='+id;
         } 
     }
 
@@ -174,7 +184,9 @@ export default function Hallform() {
                     </div>
                 </div>
                 <Formlist
-                    active={1}
+                    showerr={dterr}
+                    setDate={(date)=>{ setAvdate(date) }}
+                    setTime={(time)=>{ setAvtime(time); }}
                     backtodashboard={()=>{ gotodashboard(); }}
                 />
             </div>

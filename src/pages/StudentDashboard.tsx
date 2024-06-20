@@ -1,11 +1,11 @@
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar.tsx';
 import { useState, useEffect } from 'react';
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
 import { ref, getDatabase, update, onValue, remove } from "firebase/database";
 import Menu from './Menu.tsx';
 
-export default function Dashboard(){
+export default function StudentDashboard(){
     initializeApp(firebaseConfig);
     const db = getDatabase();
 
@@ -33,7 +33,7 @@ export default function Dashboard(){
 
         if(usersession==='undefined' || usersession===undefined || usersession==='null' || usersession===null){
             sessionStorage.clear();
-            window.location.href = '/login';
+            window.location.href = '/studentlogin';
         }else{
             usersession = JSON.parse(usersession);
             setUser(usersession);
@@ -78,7 +78,7 @@ export default function Dashboard(){
 
     const logout = () => {
         sessionStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/studentlogin';
     }
 
     const dropmenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, userid: string, rowid: string) => {

@@ -1,22 +1,35 @@
 type FormlistProps = {
+    showerr: boolean
     backtodashboard: ()=>void
+    setDate: (date: string)=>void
+    setTime: (time: string)=>void
 }
 
- export default function Formlist({ backtodashboard }: FormlistProps) {
-    
+ export default function Formlist({ showerr, backtodashboard, setDate, setTime }: FormlistProps) {
+    const dateFunct = () => {
+        const el = document.getElementById('formdatechooser') as HTMLInputElement;
+        setDate(el.value);
+    }
+
+    const timeFunct = () => {
+        const el = document.getElementById('formtimechooser') as HTMLInputElement;
+        setTime(el.value);
+    }
+
    return (
      <div className='bg-white rounded-md shadow-xl w-[350px] py-8 px-6 h-auto flex flex-col justify-between items-start' style={{border:'1px solid rgba(228, 231, 236, 1)'}}>
         <ul>
-            <div className="font-bold">Time of Student Availability</div>
+            <div className="font-bold flex flex-row items-center justify-start">Time of Student Availability 
+                <div className="ml-4 w-3 h-3 rounded-full bg-red-600" style={{display:showerr?'flex':'none'}}></div></div>
             <p className="text-sm font-semibold text-[#667185] mt-0.5">Fill out the time of your availability for the maintenace to be carried out.</p>
             <div className="mt-4">
                 <div className="font-semibold text-sm">Date</div>
-                <input className="mt-2 cursor-pointer rounded-lg px-2 py-1" type="date" style={{border:'1px grey solid'}}/>
+                <input id="formdatechooser" className="mt-2 cursor-pointer rounded-lg px-2 py-1" type="date" style={{border:'1px grey solid'}}onChange={()=>{ dateFunct(); }}/>
             </div>
 
             <div className="mt-8">
                 <div className="font-semibold text-sm">Time</div>
-                <input className="mt-2 cursor-pointer rounded-lg px-2 py-1" type="time" style={{border:'1px grey solid'}}/>
+                <input id="formtimechooser" className="mt-2 cursor-pointer rounded-lg px-2 py-1" type="time" style={{border:'1px grey solid'}} onChange={()=>{ timeFunct(); }}/>
             </div>
 
             <button className="w-full bg-[#814789] text-white text-sm font-semibold py-3 rounded-md mt-8" onClick={()=>{ backtodashboard(); }}>

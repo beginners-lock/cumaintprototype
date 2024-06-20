@@ -9,7 +9,7 @@ import { STAFF_CREATE_ACC_INSTRUCTIONS, EMAIL_ALREADY_REGISTERD, ACCOUNT_CREATED
 import LoadingSpinner from "../components/Spinner.tsx";
 
 
-export default function Createaccount() {
+export default function CreateStaffAcount() {
     initializeApp(firebaseConfig);
     const db = getDatabase();
 
@@ -37,15 +37,15 @@ export default function Createaccount() {
 
         let fname = fnameEl.value; let lname = lnameEl.value; let email = emailEl.value; let password = passwordEl.value;
 
-        if(fname==='' || fname.toLowerCase()!==email.slice(0, email.indexOf('.'))){
+        if(fname===''){
             error=true; setFnameerr(true); setErrbody(STAFF_CREATE_ACC_INSTRUCTIONS);
         }
 
-        if(lname.toLowerCase()==='' || lname.toLowerCase()!==email.slice(email.indexOf('.')+1, email.indexOf('@'))){
+        if(lname.toLowerCase()===''){
             error=true; setLnameerr(true); setErrbody(STAFF_CREATE_ACC_INSTRUCTIONS);
         }
 
-        if(!email.includes('@stu.cu.edu.ng') || email.length<17){
+        if(!email.includes('@')){
             error=true; setEmailerr(true); setErrbody(STAFF_CREATE_ACC_INSTRUCTIONS);
         }
 
@@ -79,7 +79,7 @@ export default function Createaccount() {
                         email: email,
                         password: password,
                         verified: false,
-                        type: 'user'
+                        type: 'staff'
                     };
                     push(usersRef, userdata).then((val)=>{
                         console.log(val.key);
@@ -90,7 +90,7 @@ export default function Createaccount() {
                         let loggedinuser = { id: val.key, ...userdata };
                         sessionStorage.setItem('cumainsession', JSON.stringify(loggedinuser));
 
-                        window.location.href = '/studentdashboard?id='+val.key;
+                        window.location.href = '/staffdashboard?id='+val.key;
                     });
                 }
             })
@@ -104,7 +104,7 @@ export default function Createaccount() {
             <div className='pt-[70px] flex flex-col items-center justify-start'>
                 <div id='form-container' className="rounded-lg shadow-xl py-6 px-10 w-96 bg-white" style={{border:'1px solid #D0D5DD'}}>
                     <div className='flex flex-col items-center justify-start'>
-                        <div className='font-bold text-2xl'>Create Student  ccount</div>
+                        <div className='font-bold text-2xl'>Create Staff Account</div>
                         <p className='font-semibold text-center text-sm text-[#667185] mt-0.5'>Sign up to gain access to the maintenace platform</p>
                         
                         <div className='w-full mt-3'>
@@ -139,7 +139,7 @@ export default function Createaccount() {
 
                         <div className='mt-4 text-sm w-full flex flex-row items-center justify-between'>
                             <p className="font-semibold text-xs">Already have an account?</p>
-                            <a className="font-semibold text-xs text-[#814789]" href="/studentlogin">Login</a>
+                            <a className="font-semibold text-xs text-[#814789]" href="/stafflogin">Login</a>
                         </div>
 
                         <button className="w-full bg-[#814789] text-white text-sm font-semibold py-3 rounded-md mt-6 flex flex-row justify-center" onClick={()=>{ if(!loading){ createaccount(); } }}>

@@ -1,14 +1,14 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import AuthModal from '../components/Authmodal';
+import Header from '../components/Header.tsx';
+import Footer from '../components/Footer.tsx';
+import AuthModal from '../components/Authmodal.tsx';
 import { useState } from "react";
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
 import LoadingSpinner from "../components/Spinner.tsx";
 import { ref, getDatabase, get } from "firebase/database";
-import { ADMIN_LOGIN_SUCCESS, LOGIN_INSTRUCTIONS, LOGIN_SUCCESS, USER_NOT_EXISTS, WRONG_CREDS } from '../constants/messages.tsx';
+import { STUDENT_LOGIN_INSTRUCTIONS, LOGIN_SUCCESS, USER_NOT_EXISTS, WRONG_CREDS } from '../constants/messages.tsx';
 
-export default function Login(){
+export default function StudentLogin(){
     initializeApp(firebaseConfig);
     const db = getDatabase();
 
@@ -33,11 +33,11 @@ export default function Login(){
         let email = emailEl.value; let password = passwordEl.value;
 
         if((!email.includes('@stu.cu.edu.ng') && email!==import.meta.env.VITE_ADMIN_EMAIL) || email.length<17){
-            error=true; setEmailerr(true); setErrbody(LOGIN_INSTRUCTIONS);
+            error=true; setEmailerr(true); setErrbody(STUDENT_LOGIN_INSTRUCTIONS);
         }
 
         if(password==='' || password.length<8){
-            error=true; setPassworderr(true); setErrbody(LOGIN_INSTRUCTIONS);
+            error=true; setPassworderr(true); setErrbody(STUDENT_LOGIN_INSTRUCTIONS);
         }
         //alert(error);
         if(error){
@@ -46,52 +46,41 @@ export default function Login(){
             setLoading(true);
 
             //Check if it's the admin email else do the login process for a user
-            if(email===import.meta.env.VITE_ADMIN_EMAIL){
-                if(password===import.meta.env.VITE_ADMIN_PASSWORD){
-                    setShowerrmodal(true); setModalcolor('green'); 
-                    setErrbody(ADMIN_LOGIN_SUCCESS); setLoading(false);
-                    window.location.href = '/admindashboard?id=admin'+import.meta.env.VITE_ADMIN_ID;
-                }else{
-                    setShowerrmodal(true); setModalcolor('red'); 
-                    setErrbody(WRONG_CREDS); setLoading(false);
-                }
-            }else{
-                let usersRef = ref(db, 'cumaint/Users');
+            let usersRef = ref(db, 'cumaint/Users');
 
-                get(usersRef).then((snapshot)=>{
-                    let data = snapshot.val()
+            get(usersRef).then((snapshot)=>{
+                let data = snapshot.val()
+                
+                if(data){
+                    let userids = Object.keys(data);
+                    let users = Object.values(data);
+                    let similaremail = users.filter((user: any) => user.email===email);
                     
-                    if(data){
-                        let userids = Object.keys(data);
-                        let users = Object.values(data);
-                        let similaremail = users.filter((user: any) => user.email===email);
+                    if(similaremail.length>0){
+                        let similaruser = users.find((user: any) => user.password===password);
                         
-                        if(similaremail.length>0){
-                            let similaruser = users.find((user: any) => user.password===password);
-                            
-                            if(similaruser){
-                                setShowerrmodal(true); setModalcolor('green'); 
-                                setErrbody(LOGIN_SUCCESS); setLoading(false);
+                        if(similaruser){
+                            setShowerrmodal(true); setModalcolor('green'); 
+                            setErrbody(LOGIN_SUCCESS); setLoading(false);
 
-                                //User session setup stuff
-                                let id = userids[users.indexOf(similaruser)];
-                                let loggedinuser = { id: id, ...similaruser };
-                                sessionStorage.setItem('cumainsession', JSON.stringify(loggedinuser));
-                                window.location.href = '/dashboard?id='+id;
-                            }else{
-                                setShowerrmodal(true); setModalcolor('red'); 
-                                setErrbody(WRONG_CREDS); setLoading(false);
-                            }
+                            //User session setup stuff
+                            let id = userids[users.indexOf(similaruser)];
+                            let loggedinuser = { id: id, ...similaruser };
+                            sessionStorage.setItem('cumainsession', JSON.stringify(loggedinuser));
+                            window.location.href = '/studentdashboard?id='+id;
                         }else{
                             setShowerrmodal(true); setModalcolor('red'); 
-                            setErrbody(USER_NOT_EXISTS); setLoading(false);
+                            setErrbody(WRONG_CREDS); setLoading(false);
                         }
                     }else{
                         setShowerrmodal(true); setModalcolor('red'); 
                         setErrbody(USER_NOT_EXISTS); setLoading(false);
                     }
-                });
-            }
+                }else{
+                    setShowerrmodal(true); setModalcolor('red'); 
+                    setErrbody(USER_NOT_EXISTS); setLoading(false);
+                }
+            });
         }
     }
 
@@ -102,7 +91,7 @@ export default function Login(){
             <div className='pt-28 flex flex-col items-center justify-start'>
                 <div id='form-container' className="rounded-lg shadow-xl p-10 w-96 bg-white" style={{border:'1px solid #D0D5DD'}}>
                     <div className='flex flex-col items-center justify-start'>
-                        <div className='font-bold text-2xl'>Log In</div>
+                        <div className='font-bold text-2xl'>Student Login</div>
                         <p className='font-semibold text-center text-sm text-[#667185] mt-0.5'>Enter your credentials to acces your account</p>
                         
                         <div className='w-full mt-6'>  
@@ -129,7 +118,7 @@ export default function Login(){
 
                         <div className='w-full mt-4 flex flex-row items-center justify-start text-xs font-semibold'>
                             Don't have an account? 
-                            <a className='text-[#814789] ml-2 cursor-pointer' href="/createaccount">Create an account</a>
+                            <a className='text-[#814789] ml-2 cursor-pointer' href="/createstudentaccount">Create an account</a>
                         </div>
 
                         <button className="flex flex-row items-center justify-center w-full bg-[#814789] text-white text-sm font-semibold py-3 rounded-md mt-6" onClick={()=>{ if(!loading){ login(); } }}>

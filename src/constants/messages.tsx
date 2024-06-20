@@ -1,12 +1,24 @@
-export const CREATE_ACC_INSTRUCTIONS = <div className="text-sm">
+export const STUDENT_CREATE_ACC_INSTRUCTIONS = <div className="text-sm">
     Firstname: This field must not be empty<br className="mb-1"/>
     Lastname: This field must not be empty<br className="mb-1"/>
     Email: This must be your school email <em className="font-semibold">(firstname.lastname@stu.cu.edu.ng)</em><br className="mb-1"/>
     Password: This must not be less than 8 characters
 </div>;
 
-export const LOGIN_INSTRUCTIONS = <div className="text-sm">
+export const STUDENT_LOGIN_INSTRUCTIONS = <div className="text-sm">
     Email: This must be your school email <em className="font-semibold">(firstname.lastname@stu.cu.edu.ng)</em><br className="mb-1"/>
+    Password: This must not be less than 8 characters
+</div>;
+
+export const STAFF_CREATE_ACC_INSTRUCTIONS = <div className="text-sm">
+    Firstname: This field must not be empty<br className="mb-1"/>
+    Lastname: This field must not be empty<br className="mb-1"/>
+    Email: This must be a valid email <br className="mb-1"/>
+    Password: This must not be less than 8 characters
+</div>;
+
+export const STAFF_LOGIN_INSTRUCTIONS = <div className="text-sm">
+    Email: This must be the email use registered with
     Password: This must not be less than 8 characters
 </div>;
 
