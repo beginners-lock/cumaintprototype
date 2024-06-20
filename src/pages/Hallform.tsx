@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase, push } from "firebase/database";
+import { ref, getDatabase } from "firebase/database";
 import LoadingSpinner from "../components/Spinner.tsx";
 
 export default function Hallform() {
@@ -25,7 +25,7 @@ export default function Hallform() {
     const [avtime, setAvtime] = useState('');
     const [dterr, setDTerr] = useState(false);
 
-    const issuesref = ref(db, 'cumaint/Issues');
+    //const issuesref = ref(db, 'cumaint/Issues');
 
     useEffect(()=>{
         const form = sessionStorage.getItem('cumaintform');

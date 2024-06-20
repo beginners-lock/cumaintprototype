@@ -38,7 +38,7 @@ export default function ComplaintPhoto(){
                 getDownloadURL((snapshot.ref)).then(async (url)=>{
                     let form = JSON.parse(session);
                     form.pic = url;
-                    push(issuesref).then(snapshot => {
+                    push(issuesref).then(() => {
                         window.location.href="/studentdashboard?id="+id;
                     });
                 });
