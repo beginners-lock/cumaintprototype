@@ -4,12 +4,10 @@ import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { firebaseConfig } from "../firebaseconfig.ts";
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase } from "firebase/database";
 import LoadingSpinner from "../components/Spinner.tsx";
 
 export default function Hallform() {
     initializeApp(firebaseConfig);
-    const db = getDatabase();
 
     const urlstring = window.location.search;
     const params = new URLSearchParams(urlstring);

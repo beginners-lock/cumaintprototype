@@ -184,38 +184,6 @@ export default function Admindashboard(){
                     </div>
                 </div>
 
-                <div className='mt-6 flex flex-row items-center justify-start'>
-                    <div className='flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Electricity</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*hallnum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Furniture</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*collegenum*/}</div>
-                    </div>
-                    
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Water</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*librarynum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Toilet</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*chapelnum*/}</div>
-                    </div>
-
-                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
-                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
-                        <p className='text-sm ml-2 font-semibold'>Others</p>
-                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*othersnum*/}</div>
-                    </div>
-                </div>
-
                 <div className='w-full mt-6 rounded-lg mb-10' style={{border:'1px #E4E7EC solid'}}>
                     <div className='flex flex-row items-center justify-between items-center bg-[#F9FAFB]' style={{borderBottom:'1px #E4E7EC solid'}}>
                         <p className='text-sm w-[16%] box-border px-4 py-2'>Room number</p>
@@ -259,3 +227,38 @@ export default function Admindashboard(){
     </div>
     );
 };
+
+
+/**
+ * <div className='mt-6 flex flex-row items-center justify-start'>
+                    <div className='flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
+                        <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Electricity</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*hallnum/}</div>
+                        </div>
+
+                        <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
+                            <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
+                            <p className='text-sm ml-2 font-semibold'>Furniture</p>
+                            <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*collegenum/}</div>
+                        </div>
+                        
+                        <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
+                            <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
+                            <p className='text-sm ml-2 font-semibold'>Water</p>
+                            <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*librarynum/}</div>
+                        </div>
+    
+                        <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
+                            <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
+                            <p className='text-sm ml-2 font-semibold'>Toilet</p>
+                            <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*chapelnum/}</div>
+                        </div>
+    
+                        <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:filter==='hall'?'#FAEEFC':'#F0F2F5', border:filter==='hall'?'1px transparent solid':'1px #D0D5DD solid'}}>
+                            <img src={filter==='hall'?"icons/active-bubble.svg":"icons/bubble.svg"} alt="" />
+                            <p className='text-sm ml-2 font-semibold'>Others</p>
+                            <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:filter==='hall'?'white':'#344054', backgroundColor:filter==='hall'?'#814789':'#E4E7EC'}}>{/*othersnum/}</div>
+                        </div>
+                    </div>
+ */
