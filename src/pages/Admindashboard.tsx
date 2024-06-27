@@ -231,9 +231,11 @@ export default function Admindashboard(){
 
                 <div className='w-full mt-6 rounded-lg pb-10' style={{border:'1px #E4E7EC solid'}}>
                     <div className='flex flex-row items-center justify-between items-center bg-[#F9FAFB]' style={{borderBottom:'1px #E4E7EC solid'}}>
-                        <p className='text-sm w-[16%] box-border px-4 py-2'>Room number</p>
-                        <p className='text-sm w-[56%] box-border py-2'>Complaints</p>
-                        <p className='text-sm w-[12%] box-border py-2'>Date and time</p>
+                        <p className='text-sm w-[12%] box-border px-4 py-2'>Room number</p>
+                        <p className='text-sm w-[40%] box-border py-2'>Complaints</p>
+                        <p className='text-sm w-[8%] box-border py-2'>Image</p>
+                        <p className='text-sm w-[10%] box-border py-2'>Date and time</p>
+                        <p className='text-sm w-[10%] box-border py-2'>Available</p>
                         <p className='text-sm w-[8%] box-border py-2'>Status</p>
                         <p className='w-[6%] box-border py-2'></p>
                     </div>
@@ -241,18 +243,29 @@ export default function Admindashboard(){
                         {
                             complaintsarray.length>0?
                                 complaintsarray.map((item: any, index: number)=>(
-                                    <div key={complaintsids[index]} className='flex flex-row items-center justify-between items-center'>
-                                        <div className='text-sm w-[16%] box-border px-4 py-2'>
+                                    <div key={complaintsids[index]} className='flex flex-row items-start justify-between'>
+                                        <div className='text-sm w-[12%] box-border px-4 py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.specifics1}</h4>
                                             <p className="text-[#475367]">{item.specifics2.toUpperCase()}</p>
                                         </div>
-                                        <div className='text-sm w-[56%] box-border py-2'>
+                                        <div className='text-sm w-[40%] box-border py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.title}</h4>
                                             <p className="text-[#475367]">{item.body.length>300 ? item.body.slice(0, 297)+'...' : item.body}</p>
                                         </div>
-                                        <div className='text-sm w-[12%] box-border py-2'>
+                                        <div className='text-sm w-[8%] box-border py-2 font-semibold'>
+                                            {
+                                                item.pic ? 
+                                                    <a className="underline text-[#0000EE]" target="_blank" href={item.pic}>Image</a>
+                                                :   'No image'
+                                            }
+                                        </div>
+                                        <div className='text-sm w-[10%] box-border py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.day}</h4>
                                             <p className="text-[#475367]">{item.time}</p>
+                                        </div>
+                                        <div className='text-sm w-[10%] box-border py-2'>
+                                            <h4 className="font-semibold text-[#101928]">{item.avdate ? item.avdate : '-----------'}</h4>
+                                            <p className="text-[#475367]">{item.avtime ? item.avtime : '--------'}</p>
                                         </div>
                                         <div className='text-sm w-[8%] box-border py-2 font-semibold' style={{color:item.status==='pending'?'orange':item.status==='solved'?'green':'red'}}>
                                             {item.status.toUpperCase()}

@@ -209,7 +209,7 @@ export default function StudentDashboard(){
                         {
                             complaintsarray.length>0?
                                 complaintsarray.map((item: any, index: number)=>(
-                                    <div key={complaintsids[index]} className='flex flex-row items-center justify-between items-center'>
+                                    <div key={complaintsids[index]} className='flex flex-row items-start justify-between'>
                                         <div className='text-sm w-[14%] box-border px-4 py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.specifics1}</h4>
                                             <p className="text-[#475367]">{item.specifics2.toUpperCase()}</p>
