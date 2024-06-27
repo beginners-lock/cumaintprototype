@@ -40,7 +40,7 @@ export default function Sidebar({ userid, firstname, lastname, admin, email, log
     }
 
   return (
-    <div className="w-[272px] p-4 fixed h-full left-0 top-0 flex flex-col justify-between" style={{borderRight:'1px solid #F0F2F5'}}>
+    <div className="w-[260px] p-4 fixed h-full left-0 top-0 flex flex-col justify-between" style={{borderRight:'1px solid #F0F2F5'}}>
         <div>
             <div className='h-[75px] flex items-center'>
                 <img className="w-10 h-10" src="icons/cu.logo.svg" alt="" />

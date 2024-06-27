@@ -10,11 +10,12 @@ import StaffLogin from './pages/StaffLogin';
 import CreateStaffAcount from './pages/CreateStaff';
 import StudentDashboard from './pages/StudentDashboard';
 import StaffDashboard from './pages/StaffDashboard';
+import Feedback from './pages/Feedback';
 
 
 function App() {
 	return (
-		<div id="appdiv" className='w-full h-full'>
+		<div id="appdiv" className='w-full h-full overflow-x-hidden'>
 			<div id="maincontainer" className='w-full h-full'>
 				<Routes>
 					<Route path="/" element={ <StudentLogin/> }></Route>
@@ -28,6 +29,7 @@ function App() {
 					<Route path="/createstaffaccount" element={ <CreateStaffAcount/>  }></Route>
 					<Route path="/hallform" element={ <Hallform/>  }></Route>
 					<Route path="/complaintphoto" element={ <ComplaintPhoto/>  }></Route>
+					<Route path="/feedback" element={ <Feedback/>  }></Route>
 				</Routes>
 			</div>
 		</div>	

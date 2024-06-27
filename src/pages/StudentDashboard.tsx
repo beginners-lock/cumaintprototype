@@ -40,15 +40,15 @@ export default function StudentDashboard(){
         }
 
         const unsub = onValue(issuesref, (snapshot) => {
-            let data = snapshot.val();
+            const data = snapshot.val();
             
             if(data){
                 //Filter only those that belong to user
-                let vals = Object.values(data);
-                let ids  = Object.keys(data);
+                const vals = Object.values(data).reverse();
+                const ids  = Object.keys(data).reverse();
 
-                let filteredids: any[] = [];
-                let filteredvals = vals.filter((val:any, index)=>{
+                const filteredids: any[] = [];
+                const filteredvals = vals.filter((val:any, index)=>{
                     if(val.userid===id){
                         filteredids.push(ids[index]);
                         return val;
@@ -124,6 +124,7 @@ export default function StudentDashboard(){
             closemenu={()=>{ setActivecomplaintuserid(''); setActivecomplaintrowid(''); }}
             admin={false}
             owner={id===activecomplaintuserid}
+            feedback={()=>{}}
         />
         <div className='w-full h-full'>
             <div className='w-full flex flex-row items-center justify-between'>
@@ -195,10 +196,11 @@ export default function StudentDashboard(){
                     </div>
                 </div>
 
-                <div className='w-full mt-6 rounded-lg mb-10' style={{border:'1px #E4E7EC solid'}}>
+                <div className='w-full mt-6 rounded-lg pb-10' style={{border:'1px #E4E7EC solid'}}>
                     <div className='flex flex-row items-center justify-between items-center bg-[#F9FAFB]' style={{borderBottom:'1px #E4E7EC solid'}}>
-                        <p className='text-sm w-[16%] box-border px-4 py-2'>Room number</p>
-                        <p className='text-sm w-[56%] box-border py-2'>Complaints</p>
+                        <p className='text-sm w-[14%] box-border px-4 py-2'>Room number</p>
+                        <p className='text-sm w-[48%] box-border py-2'>Complaints</p>
+                        <p className='text-sm w-[10%] box-border py-2'>Image</p>
                         <p className='text-sm w-[12%] box-border py-2'>Date and time</p>
                         <p className='text-sm w-[8%] box-border py-2'>Status</p>
                         <p className='w-[6%] box-border py-2'></p>
@@ -208,13 +210,20 @@ export default function StudentDashboard(){
                             complaintsarray.length>0?
                                 complaintsarray.map((item: any, index: number)=>(
                                     <div key={complaintsids[index]} className='flex flex-row items-center justify-between items-center'>
-                                        <div className='text-sm w-[16%] box-border px-4 py-2'>
+                                        <div className='text-sm w-[14%] box-border px-4 py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.specifics1}</h4>
                                             <p className="text-[#475367]">{item.specifics2}</p>
                                         </div>
-                                        <div className='text-sm w-[56%] box-border py-2 pr-2'>
+                                        <div className='text-sm w-[48%] box-border py-2 pr-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.title}</h4>
                                             <p className="text-[#475367]">{item.body.length>300 ? item.body.slice(0, 297)+'...' : item.body}</p>
+                                        </div>
+                                        <div className='text-sm w-[10%] box-border py-2 font-semibold'>
+                                            {
+                                                item.pic ? 
+                                                    <a className="underline text-[#0000EE]" target="_blank" href={item.pic}>Image</a>
+                                                :   'No image'
+                                            }
                                         </div>
                                         <div className='text-sm w-[12%] box-border py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.day}</h4>
@@ -236,4 +245,4 @@ export default function StudentDashboard(){
         </div>
     </div>
     );
-};
+}

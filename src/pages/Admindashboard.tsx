@@ -22,6 +22,11 @@ export default function Admindashboard(){
     const [solved, setSolved] = useState(0);
     const [pending, setPending] = useState(0);
     const [revoked, setRevoked] = useState(0);
+    const [electricitynum, setElectricitynum] = useState(0);
+    const [furniturenum, setFurniturenum] = useState(0);
+    const [waternum, setWaternum] = useState(0);
+    const [toiletnum, setToiletnum] = useState(0);
+    const [othersnum, setOthersnum] = useState(0);
 
     const [coordinates, setCoordinates] = useState({top:'', left:''});
     const [activecomplaintuserid, setActivecomplaintuserid] = useState('');
@@ -46,16 +51,23 @@ export default function Admindashboard(){
 
                 //Now arrange them according to total, solved, pending, revoked
                 let solvednum=0; let pendingnum=0; let revokednum=0;
+                let elnum=0; let fnum=0; let wnum=0; let tnum=0; let onum=0;
                 
                 vals.map((val: any)=>{
                     if(val.status==="solved"){ solvednum+=1; }
                     if(val.status==="pending"){ pendingnum+=1; }
                     if(val.status==="revoked"){ revokednum+=1; }
+                    if(val.title==="Electricity"){ elnum+=1; }
+                    if(val.title==="Furniture"){ fnum+=1; }
+                    if(val.title==="Water"){ wnum+=1; }
+                    if(val.title==="Toilet"){ tnum+=1; }
+                    if(val.title==="Others"){ onum+=1; }
                 });
 
                 setComplaintsarray(vals);
                 setComplaintsids(ids);
                 setTotal(vals.length); setSolved(solvednum); setPending(pendingnum); setRevoked(revokednum);
+                setElectricitynum(elnum); setFurniturenum(fnum); setWaternum(wnum); setToiletnum(tnum); setOthersnum(onum);
             }else{
                 setComplaintsarray([]);
                 setComplaintsids([]);
@@ -113,6 +125,7 @@ export default function Admindashboard(){
             closemenu={()=>{ setActivecomplaintuserid(''); setActivecomplaintrowid(''); }}
             admin={true}
             owner={id===activecomplaintuserid}
+            feedback={()=>{}}
         />
         <div className='w-full'>
             <div className='w-full flex flex-row items-center justify-between'>
@@ -184,7 +197,39 @@ export default function Admindashboard(){
                     </div>
                 </div>
 
-                <div className='w-full mt-6 rounded-lg mb-10' style={{border:'1px #E4E7EC solid'}}>
+                <div className='mt-6 flex flex-row items-center justify-start'>
+                    <div className='flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:'#F0F2F5', border:'1px #D0D5DD solid'}}>
+                        <img src={"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Electricity</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:'#344054', backgroundColor:'#E4E7EC'}}>{electricitynum}</div>
+                    </div>
+
+                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:'#F0F2F5', border:'1px #D0D5DD solid'}}>
+                        <img src={"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Furniture</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:'#344054', backgroundColor:'#E4E7EC'}}>{furniturenum}</div>
+                    </div>
+                    
+                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:'#F0F2F5', border:'1px #D0D5DD solid'}}>
+                        <img src={"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Water</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:'#344054', backgroundColor:'#E4E7EC'}}>{waternum}</div>
+                    </div>
+
+                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:'#F0F2F5', border:'1px #D0D5DD solid'}}>
+                        <img src={"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Toilet</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:'#344054', backgroundColor:'#E4E7EC'}}>{toiletnum}</div>
+                    </div>
+
+                    <div className='ml-6 flex flex-row items-center justify-start px-2 py-2 rounded-md cursor-pointer' style={{backgroundColor:'#F0F2F5', border:'1px #D0D5DD solid'}}>
+                        <img src={"icons/bubble.svg"} alt="" />
+                        <p className='text-sm ml-2 font-semibold'>Others</p>
+                        <div className='text-xs ml-2 px-3 py-0.5 rounded-full' style={{color:'#344054', backgroundColor:'#E4E7EC'}}>{othersnum}</div>
+                    </div>
+                </div>
+
+                <div className='w-full mt-6 rounded-lg pb-10' style={{border:'1px #E4E7EC solid'}}>
                     <div className='flex flex-row items-center justify-between items-center bg-[#F9FAFB]' style={{borderBottom:'1px #E4E7EC solid'}}>
                         <p className='text-sm w-[16%] box-border px-4 py-2'>Room number</p>
                         <p className='text-sm w-[56%] box-border py-2'>Complaints</p>
