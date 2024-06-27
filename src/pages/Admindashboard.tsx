@@ -244,7 +244,7 @@ export default function Admindashboard(){
                                     <div key={complaintsids[index]} className='flex flex-row items-center justify-between items-center'>
                                         <div className='text-sm w-[16%] box-border px-4 py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.specifics1}</h4>
-                                            <p className="text-[#475367]">{item.specifics2}</p>
+                                            <p className="text-[#475367]">{item.specifics2.toUpperCase()}</p>
                                         </div>
                                         <div className='text-sm w-[56%] box-border py-2'>
                                             <h4 className="font-semibold text-[#101928]">{item.title}</h4>
